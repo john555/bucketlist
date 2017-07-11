@@ -48,7 +48,7 @@ header#header-anonymous{
 }
 
 header#header-anonymous a.logo{
-    width: 90px;
+    width: 160px;
 }
 
 a.logo{
@@ -68,7 +68,7 @@ a.logo img{
 }
 
 #entry-form-content{
-    width: 270px;
+    width: 320px;
 }
 
 #entry-form-content .copy{
@@ -593,4 +593,10 @@ ul#account-menu-options li + li{
 
 .js-bucket-name:hover{
     background: #ccc;
+}
+.input-lg{
+    width: 100%;
+}
+label{
+    font-weight: normal;
 }
