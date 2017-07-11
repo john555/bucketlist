@@ -571,7 +571,7 @@ ul#account-menu-options li + li{
 .js-add-bucket-btn:focus{
     color: white;
     text-decoration: none;
-    filter: grayscale()
+    filter: grayscale(1)
 }
 
 .buckets-list-header{
