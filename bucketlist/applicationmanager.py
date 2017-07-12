@@ -6,6 +6,7 @@ class ApplicationManager():
     """creates """
     def __init__(self):
         self.users = dict()
+        self.__index = dict()
     def create_user(self, first_name, last_name, email, password):
         """creates a new User object and stores it in self.users"""
         if not self.__is_valid_input(first_name, str):
@@ -21,6 +22,7 @@ class ApplicationManager():
 
         user_id = self.__generate_user_id()
         user = User(user_id=user_id, first_name=first_name, last_name=last_name, email=email, password=password)
+        self.__index[email] = user_id
         self.users[user_id] = user
         return user
 
@@ -46,9 +48,14 @@ class ApplicationManager():
             raise ValueError()
         del self.users[user_id]
 
+    def find_user_by_email(self, email):
+        if email in self.__index:
+            return self.users[self.__index[email]]
+        return False
+    
     def __generate_user_id(self):
         """returns random string to be used as a key in the self.users dictionary"""
-        random.seed(2)
+        #random.seed(2)
         return str(random.randrange(100000, 1000000))
 
     def __is_valid_input(self, value, valid_type):

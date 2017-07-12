@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Keep track of your goals - Goal Bucket</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body class="">
+    <form action="/logout" method="post" id="logout-form"></form>
+    <header id="header-main">
+        <div class="container">
+            <a href="" class="logo left"><img src="/static/images/logo-white.svg" alt=""></a>
+            <div class="right">
+                <ul id="tools">
+                    <!--<li>
+                        <span>
+                            <i class="glyphicon glyphicon-bell"></i>
+                        </span>
+
+                        <div id="notif" class="dropdown hidden">
+                            <div id="notif-heading">
+                                <span>Notifications</span>
+                            </div>
+                            <div id="notifications">
+                                <div class="notification">
+                                    <span class="close">×</span>
+                                    <div class="ntf-title">Upcomming dadeline</div>
+                                    <div class="ntf-details">Tuesday at 12:00PM</div>
+                                </div>
+                                <div class="notification">
+                                    <span class="close">×</span>
+                                    <div class="ntf-title">You need to go hiking with James, Peter and 3 others</div>
+                                    <div class="ntf-details">Tuesday at 12:00PM</div>
+                                </div>
+                                <!--<div class="notification js-notif-none">
+                                    <div class="ntf-title">You have no notifications.</div>
+                                </div>--><!--
+                            </div>
+                        </div>
+                    </li>-->
+                    <!--<li><span><i class="glyphicon glyphicon-user"></i></span></li>-->
+                    <li>
+                        <span class="img-wrapper">
+                            <img src="/static/images/profile-pic.png" alt="">
+                        </span>
+                        <span class="icon-label">John</span>
+                        <div class="dropdown hidden">
+                            <div class="profile-header">
+                                <div class="profile-pic left">
+                                    <img src="/static/images/profile-pic.png" alt="">
+                                </div>
+                                <div class="profile-name left">
+                                    <span>John Themistocles Doe</span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <ul id="account-menu-options">
+                                <li><a href="">Account settings</a></li>
+                                <li><a href="javascript:document.getElementById('logout-form').submit();">Sign out</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </header>
+    <div id="content">
+        <div id="left-content">
+            <div class="left-header">
+                <a href="javascript:void(0)" class="js-add-bucket-btn"><i class="glyphicon glyphicon-plus"></i> Add new bucket list</a>
+            </div>
+            <div id="bucket-wrapper">
+                <div class="buckets-list-header">
+                    <span>My buckets</span>
+                </div>
+                <div class="buckets">
+                    <div class="bucket">
+                        <a href="javascript:void()" class="js-bucket-name">Git & GitHub</a>
+                    </div>
+                    <div class="bucket">
+                        <a href="javascript:void()" class="js-bucket-name">Machine learning</a>
+                    </div>
+                    <div class="bucket">
+                        <a href="javascript:void()" class="js-bucket-name">Data science</a>
+                    </div>
+                    <div class="bucket">
+                        <a href="javascript:void()" class="js-bucket-name">Signal processing</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="middle-content">
+            <div id="bucket-header">
+                <div class="left">
+                    <span class="heading">Bucket name</span>
+                </div>
+                <div class="right">
+                    <div class="item-options-menu">
+                        <span class="ellipses">•••</span>
+                        <div class="actions">
+                            <a class="action">Edit</a>
+                            <a class="action">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="bucket">
+                <div class="bucket-item">
+                    <div class="item-options-menu">
+                        <span class="ellipses">•••</span>
+                        <div class="actions">
+                            <a class="action">Edit</a>
+                            <a class="action">Mark as complete</a>
+                            <a class="action">Delete</a>
+                        </div>
+                    </div>
+                    <div class="item-date">
+                        <span class="day">19</span>
+                        <span class="mon-year">July, 2017</span>
+                        <span class="status-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
+                            <!--<span class="icon-text">Complete</span>-->
+                        </span>
+                    </div>
+                    <div class="item-details">
+                        <span class="item-title">Go hiking</span>
+                        <div class="item-notes">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga distinctio, voluptatum, minus accusamus quidem assumenda quod quibusdam necessitatibus sint, laudantium velit fugiat! Deserunt sequi, fuga rem illum perspiciatis, suscipit temporibus.
+                        </div>
+                        <div class="item-actions">
+                            <div class="right">
+                                <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-default">Cancel</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bucket-item edit-mode">
+                    <div class="item-options-menu">
+                        <span class="ellipses">•••</span>
+                        <div class="actions">
+                            <a class="action">Edit</a>
+                            <a class="action">Mark as complete</a>
+                            <a class="action">Delete</a>
+                        </div>
+                    </div>
+                    <div class="item-date">
+                        <span class="day">19</span>
+                        <span class="mon-year">July, 2017</span>
+                        <span class="status-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
+                            <!--<span class="icon-text">Complete</span>-->
+                        </span>
+                    </div>
+                    <div class="item-details">
+                        <span class="item-title"><input type="text" class="js-item-title" value="Go hiking"></span>
+                        <div class="item-notes">
+                            <textarea class="js-item-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga distinctio, voluptatum, minus accusamus quidem assumenda quod quibusdam necessitatibus sint, laudantium velit fugiat! Deserunt sequi, fuga rem illum perspiciatis, suscipit temporibus.
+                            </textarea>
+                        </div>
+                        <div class="item-actions">
+                            <div class="right">
+                                <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-default">Cancel</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bucket-item complete">
+                    <div class="item-options-menu">
+                        <span class="ellipses">•••</span>
+                        <div class="actions">
+                            <a class="action">Edit</a>
+                            <a class="action">Mark as complete</a>
+                            <a class="action">Delete</a>
+                        </div>
+                    </div>
+                    <div class="item-date">
+                        <span class="day">19</span>
+                        <span class="mon-year">July, 2017</span>
+                        <span class="status-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
+                            <!--<span class="icon-text">Complete</span>-->
+                        </span>
+                    </div>
+                    <div class="item-details">
+                        <span class="item-title">Go hiking</span>
+                        <div class="item-notes">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga distinctio, voluptatum, minus accusamus quidem assumenda quod quibusdam necessitatibus sint, laudantium velit fugiat! Deserunt sequi, fuga rem illum perspiciatis, suscipit temporibus.
+                        </div>
+                        <div class="item-actions">
+                            <!--<button class="btn btn-default">Complete</button>
+                            <button class="btn btn-default">Incomplete</button>
+                            <button class="btn btn-default">Delete</button>-->
+                        </div>
+                    </div>
+                </div>
+                
+                <!--/ duplicates -->
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div id="floating-actions">
+        <span id="compose" class="fab">
+            <i class="glyphicon glyphicon-plus"></i>
+        </span>
+    </div>
+    <div id="overlay">
+        <div id="overlay-content">
+            <div class="modal-header">
+                <button id="close-overlay" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add a new goal</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" id="goal-form">
+                    <div class="form-group">
+                        <label for="subject">Goal</label>
+                        <input id="subject" type="text" class="form-control input-lg">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Target date (We will remind you to execute this goal on this date)</label>
+                        <input id="date" type="date" class="form-control input-lg">
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes (optional)</label>
+                        <textarea id="notes" type="text" class="form-control input-lg"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+    <div id="popup"></div>
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
