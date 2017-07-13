@@ -165,5 +165,23 @@
         }
         
         // make deleting work
+        var deleteBucketBtn = $('#js-delete-bucket');
+
+        deleteBucketBtn.click(function(){
+            deleteBucket();
+        })
+        function deleteBucket(){
+            var url = deleteBucketBtn.data('action-url');
+            $.post(url, null, onDeleteBucketComplete)
+        }
+
+        function onDeleteBucketComplete(data){
+            var data = JSON.parse(data);
+            window.location = "/u/";
+            
+        }
+
+        // make checking indicating completed items work
+        
 });
 })(jQuery);
