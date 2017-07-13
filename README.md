@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/john555/bucketlist.svg?branch=master)](https://travis-ci.org/john555/bucketlist)
+[![Build Status](https://travis-ci.org/john555/bucketlist.svg)](https://travis-ci.org/john555/bucketlist)
 [![Coverage Status](https://coveralls.io/repos/github/john555/bucketlist/badge.svg?branch=challenge-1)](https://coveralls.io/github/john555/bucketlist?branch=challenge-1)
 # Bucketlist
 
