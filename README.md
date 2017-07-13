@@ -8,7 +8,7 @@ Keep track of your goals or dreams. Don't forget to change the world.
 
 - Open a terminal/cmd prompt and change the directory to the repository folder.
 - Create a virual environment using ```virtualenv```.
-- Using the virtual environment, install the requirements byrunning ```pip install -r requirements.txt```.
+- Using the virtual environment, install the requirements by running ```pip install -r requirements.txt```.
 - Run the app using ```python app.py```.
 
 ### How to run test
