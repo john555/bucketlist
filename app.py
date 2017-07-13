@@ -62,11 +62,15 @@ def dashboard():
     user_id = session['user_id']
     if not user_id in app_manager.users:
         return redirect(url_for("login"))
-    
-    return render_template("dashboard.html", user=app_manager.users[user_id], bucket=dict())
 
-@app.route("/buckets/")
+    bucket = app_manager.users[user_id]
+
+    return render_template("dashboard.html", user=app_manager.users[user_id], bucket=bucket)
+
+@app.route("/buckets/", methods=['POST'])
 def get_buckets():
+    if not request.method == 'POST':
+        return redirect(url_for("page_not_found"))
     result = []
     user_id = session.get('user_id')
     if user_id:
@@ -107,9 +111,40 @@ def show_bucket_item(bucket_id):
     else:
         return redirect(url_for("login"))
 
+@app.route('/buckets/<bucket_id>/add', methods = ['POST'])
+def add_item_to_bucket(bucket_id):
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = app_manager.users[user_id]
+        
+        if not bucket_id in user.buckets:
+            return json.dumps(dict(error="Bucket was not found."))
+        
+        bucket = user.buckets[bucket_id]
+        title = request.form['title']
+        date = request.form['date']
+        description = request.form['description']   
+        item = bucket.create_item(title, description, date)
+        response = dict()
+        response['title'] = item.title
+        response['is_complete'] = item.is_complete
+        response['description'] = item.description
+        response['target_date'] = item.target_date
+        response['timestamp'] = item.timestamp
+        return json.dumps(response)
+
+    return json.dumps(dict(error="Unauthorized request."))
+
+@app.errorhandler(404)
 @app.route('/pagenotfound')
 def page_not_found():
-    return render_template("404.html")
+    return render_template("404.html"), 404
+
+
+# @app.errorhandler(405)
+# def method_not_allowed():
+#     return render_template("404.html"), 405
+
 if __name__ == '__main__':
     app.secret_key = 'hkhfkj7937489234nd94329rb9n0m98'
     app.config['SESSION_TYPE'] = 'filesystem'

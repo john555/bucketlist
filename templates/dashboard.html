@@ -58,7 +58,7 @@
                                 <div class="clearfix"></div>
                             </div>
                             <ul id="account-menu-options">
-                                <li><a href="">Account settings</a></li>
+                                <!-- <li><a href="">Account settings</a></li> -->
                                 <li><a href="javascript:document.getElementById('logout-form').submit();">Sign out</a></li>
                             </ul>
                         </div>
@@ -87,7 +87,7 @@
                 <div class="buckets-list-header">
                     <span>My buckets</span>
                 </div>
-                <div id="js-buckets" class="buckets">
+                <div id="js-buckets" class="buckets reverse-vertically">
                     {% for bucket in user.buckets %}
                     <div class="bucket">
                         <a href="/buckets/{{bucket}}" class="js-bucket-name">{{ user.buckets[bucket].name }}</a>
@@ -100,20 +100,20 @@
             
             <div id="bucket-header">
                 <div class="left">
-                    <span class="heading">Bucket name</span>
+                    <span class="heading">{{ bucket.name }}</span>
                 </div>
                 <div class="right">
-                    <div class="item-options-menu">
+                    <!-- <div class="item-options-menu">
                         <span class="ellipses">•••</span>
                         <div class="actions">
                             <a class="action">Edit</a>
                             <a class="action">Delete</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <div id="bucket">
+            <div id="bucket" class="reverse-vertically">
                 <!-- <div class="bucket-item">
                     <div class="item-options-menu">
                         <span class="ellipses">•••</span>
@@ -176,36 +176,42 @@
                         </div>
                     </div>
                 </div> -->
-                {% for key in bucket.item %}
-                <div class="bucket-item">
-                    <div class="item-options-menu">
-                        <span class="ellipses">•••</span>
-                        <div class="actions">
-                            <a class="action">Edit</a>
-                            <a class="action">Mark as complete</a>
-                            <a class="action">Delete</a>
-                        </div>
-                    </div>
-                    <div class="item-date">
-                        <span class="day">19</span>
-                        <span class="mon-year">July, 2017</span>
-                        <span class="status-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
-                        </span>
-                    </div>
-                    <div class="item-details">
-                        <span class="item-title">{{ bucket.item[key].title }}</span>
-                        <div class="item-notes">{{ bucket.item[key].description }}</div>
-                        <div class="item-actions">
-                            <div class="right">
-                                <button class="btn btn-primary">Save</button>
-                                <button class="btn btn-default">Cancel</button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
+                {% if bucket.items|length == 0 %}
+                <div id="no-items">
+                    <p>No items to show.</p>
                 </div>
-                {% endfor %}
+                {% else %}
+                    {% for key in bucket.items %}
+                    <div class="bucket-item">
+                        <!-- <div class="item-options-menu">
+                            <span class="ellipses">•••</span>
+                            <div class="actions">
+                                <a class="action">Edit</a>
+                                <a class="action">Mark as complete</a>
+                                <a class="action">Delete</a>
+                            </div>
+                        </div> -->
+                        <div class="item-date">
+                            <span class="day"> {{bucket.items[key].target_date}}</span>
+                            <span class="mon-year"></span>
+                            <span class="status-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
+                            </span>
+                        </div>
+                        <div class="item-details">
+                            <span class="item-title">{{ bucket.items[key].title }}</span>
+                            <div class="item-notes">{{ bucket.items[key].description }}</div>
+                            <div class="item-actions">
+                                <div class="right">
+                                    <button class="btn btn-primary">Save</button>
+                                    <button class="btn btn-default">Cancel</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
                 <!--/ duplicates -->
             </div>
         </div>
@@ -223,14 +229,14 @@
                 <h4 class="modal-title">Add a new goal</h4>
             </div>
             <div class="modal-body">
-                <form action="" id="goal-form">
+                <form action="/buckets/:id/add" id="goal-form" method="POST">
                     <div class="form-group">
-                        <label for="subject">Goal</label>
-                        <input id="subject" type="text" class="form-control input-lg">
+                        <label for="goal-title">Goal</label>
+                        <input id="goal-title" type="text" class="form-control input-lg" name="title">
                     </div>
                     <div class="form-group">
-                        <label for="_bucket">Select a bucket</label>
-                        <select id="_bucket" required class="form-control input-lg" name="bucket_id">
+                        <label for="goal-bucket">Select a bucket</label>
+                        <select id="goal-bucket" required class="form-control input-lg" name="bucket_id">
                             <option>Select</option>
                             {% for key in user.buckets %}
                             <option value="{{user.buckets[key].bucket_id}}">{{user.buckets[key].name}}</option>
@@ -238,17 +244,17 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="date">Target date</label>
-                        <input id="date" type="date" class="form-control input-lg">
+                        <label for="target-date">Target date</label>
+                        <input id="target-date" type="date" class="form-control input-lg" name="date">
                     </div>
                     <div class="form-group">
                         <label for="description">Add a description (optional)</label>
-                        <textarea id="description" type="text" class="form-control input-lg"></textarea>
+                        <textarea id="description" type="text" class="form-control input-lg" name="description"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="js-add-bucket-item" type="button" class="btn btn-primary">Save</button>
+                <button id="js-add-bucket-item" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>

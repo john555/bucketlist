@@ -4,6 +4,11 @@
     outline: none;
 }
 
+.reverse-vertically{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 html{
     background-color: #000;
 }
@@ -244,8 +249,8 @@ ul#tools li span img{
     display: block;
 }
 
-#bucket .bucket-item + .bucket-item{
-    margin-top: 20px;
+#bucket .bucket-item{
+    margin-bottom: 20px;
 }
 
 #floating-actions{
@@ -479,9 +484,13 @@ ul#account-menu-options li + li{
 
 .status-icon{
     margin-top: 20px;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
+}
+
+.complete .status-icon{
+    display: flex;
 }
 
 .status-icon svg{
@@ -607,9 +616,9 @@ label{
 #bucket-form{
     display: none;
     position: absolute;
-    background: #f6f7f8;
+    background: white;
     border: 1px solid #eee;
-    box-shadow: 0 0 1px rgba(0, 0,0,.1);
+    box-shadow: 0 0 26px rgba(0, 0,0,.1);
     padding: 10px 15px;
 }
 #popup{
@@ -627,4 +636,18 @@ label{
 
 #popup.visible{
     transform: translateY(0);
+}
+
+#no-items{
+    font-size: 28px;
+    background: white;
+    padding: 20px;
+}
+
+#no-items p{
+    opacity: .4;
+}
+
+.bucket.active{
+    border-left-color: black
 }
