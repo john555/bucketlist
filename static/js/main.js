@@ -90,7 +90,6 @@
             $.post("/buckets/create", {name:val}, function(data){
                 nameInput.val('')
                 data = JSON.parse(data);
-                console.log(data);
                 displayBucket(data);
                 showNotification("Added a new bucket.");
                 $('#goal-bucket').append("<option value='"+data.bucket_id+"'>"+data.name+"</option>");
@@ -127,7 +126,44 @@
             mon = parseInt(date[1]),
             year = parseInt([0]);
             self.text(day);
-            console.log(date);
+            var months = ['January','February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var month = months[mon-1];
+            self.siblings('.mon-year').text(month);
         });
+
+        // make editing buckets work
+        var editBucketBtn = $('#js-edit-bucket');
+        var editTarget = $('#js-edit-bucket-target');
+        var saveBtn = $('#save-edit');
+        var cancelBtn = $('#cancel-edit');
+        var parent = $('#editable-bucket');
+
+        editBucketBtn.click(function(){
+            var self = $(this);
+            var currentValue = editTarget.text();
+            
+            parent.addClass('edit-mode');
+            $('#bucket-name').val(currentValue);
+        });
+
+        cancelBtn.click(function(){
+            parent.removeClass('edit-mode');
+        });
+
+        saveBtn.click(function(){
+            var newValue = $('#bucket-name').val();
+            parent.removeClass('edit-mode');
+            editTarget.text(newValue);
+            var url = editBucketBtn.data('action-url');
+            var data = {name:newValue}
+            $.post(url, data, onEditBucketComplete)
+        });
+
+        function onEditBucketComplete(data){
+            var data = JSON.parse(data);
+            $('#bucket-'+data.bucket_id).text(data.name);
+        }
+        
+        // make deleting work
 });
 })(jQuery);

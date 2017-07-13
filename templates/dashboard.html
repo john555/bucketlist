@@ -88,9 +88,13 @@
                     <span>My buckets</span>
                 </div>
                 <div id="js-buckets" class="buckets reverse-vertically">
-                    {% for bucket in user.buckets %}
+                    {% for _bucket in user.buckets %}
+                    {% if _bucket == bucket.bucket_id %}
+                    <div class="bucket active">
+                    {% else %}
                     <div class="bucket">
-                        <a href="/buckets/{{bucket}}" class="js-bucket-name">{{ user.buckets[bucket].name }}</a>
+                    {% endif %}
+                        <a id="bucket-{{_bucket}}" href="/buckets/{{_bucket}}" class="js-bucket-name">{{ user.buckets[_bucket].name }}</a>
                     </div>
                     {% endfor %}
                 </div>
@@ -99,17 +103,22 @@
         <div id="middle-content">
             
             <div id="bucket-header">
-                <div class="left">
-                    <span class="heading">{{ bucket.name }}</span>
+                <div id="editable-bucket" class="left editable-container"><!--class [edit-mode]-->
+                    <span id="js-edit-bucket-target" class="heading edit-target">{{ bucket.name }}</span>
+                    <div class="inline-editor">
+                        <input type="text" id="bucket-name">
+                        <button id="save-edit" class="btn btn-primary">Save</button>
+                        <button id="cancel-edit" class="btn btn-default">Cancel</button>
+                    </div>
                 </div>
                 <div class="right">
-                    <!-- <div class="item-options-menu">
+                     <div class="item-options-menu">
                         <span class="ellipses">•••</span>
                         <div class="actions">
-                            <a class="action">Edit</a>
-                            <a class="action">Delete</a>
+                            <a id="js-edit-bucket" class="action" data-action-url="/buckets/{{bucket.bucket_id}}/edit">Edit</a>
+                            <a id="js-delete-bucket" class="action" data-action-url="/buckets/{{bucket.bucket_id}}/delete">Delete</a>
                         </div>
-                    </div> -->
+                    </div> 
                 </div>
                 <div class="clearfix"></div>
             </div>

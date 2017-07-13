@@ -592,6 +592,11 @@ ul#account-menu-options li + li{
     margin-top: 4px;
 }
 
+.buckets .active a{
+    border-left-color:#888;
+    background: #eee
+}
+
 .js-bucket-name{
     display: block;
     padding: 9px;
@@ -648,6 +653,24 @@ label{
     opacity: .4;
 }
 
-.bucket.active{
-    border-left-color: black
+.editable-container{
+    position: relative;
+}
+
+.editable-container.edit-mode .edit-target{
+    display: none;
+}
+.editable-container .inline-editor{
+    display: none;
+}
+.editable-container.edit-mode .inline-editor{
+    display: block;
+}
+.editable-container input{
+    padding: 8px 12px;
+    width: 390px;
+    border-radius: 3px;
+    border: 1px solid #eee;
+    margin-right: 20px;
+    font-size: 24px;
 }

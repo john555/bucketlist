@@ -32,7 +32,7 @@ def login():
                 session['user_id'] = user.user_id
                 return redirect(url_for("dashboard"))
         
-    return "Unsupported method"
+    return render_template("login.html", error=True)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -111,6 +111,9 @@ def show_bucket_item(bucket_id):
     else:
         return redirect(url_for("login"))
 
+#
+# everything on buckets
+#
 @app.route('/buckets/<bucket_id>/add', methods = ['POST'])
 def add_item_to_bucket(bucket_id):
     if 'user_id' in session:
@@ -135,6 +138,25 @@ def add_item_to_bucket(bucket_id):
 
     return json.dumps(dict(error="Unauthorized request."))
 
+@app.route('/buckets/<bucket_id>/edit', methods = ['POST'])
+def edit_bucket(bucket_id):
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = app_manager.users[user_id]
+        name = request.form['name']
+        user.edit_bucket(bucket_id, name)
+        return json.dumps(dict(bucket_id=bucket_id, name=name))
+
+@app.route('/buckets/<bucket_id>/delete', methods = ['POST'])
+def delete_bucket(bucket_id):
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = app_manager.users[user_id]
+        user.delete_bucket(bucket_id)
+        return json.dumps(dict(bucket_id = bucket_id))
+#
+# Error handlers
+#
 @app.errorhandler(404)
 @app.route('/pagenotfound')
 def page_not_found():

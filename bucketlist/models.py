@@ -21,7 +21,7 @@ class User():
     def edit_bucket(self, bucket_id, name):
         bucket = self.buckets[bucket_id]
         bucket.name = name
-        self.buckets[bucket_id] = bucket_id
+        self.buckets[bucket_id] = bucket
 
     def delete_bucket(self, bucket_id):
         size = len(self.buckets)
