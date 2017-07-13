@@ -6,7 +6,9 @@ class ApplicationManager():
     """creates """
     def __init__(self):
         self.users = dict()
+        # use indexing to map user_id to email
         self.__index = dict()
+
     def create_user(self, first_name, last_name, email, password):
         """creates a new User object and stores it in self.users"""
         if not self.__is_valid_input(first_name, str):

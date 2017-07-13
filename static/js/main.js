@@ -30,6 +30,67 @@
             $('.actions').hide();
             $(this).siblings('.actions').toggle();
         });
+
+        // make adding bucket work
+        var bucketForm = $('#bucket-form'),
+            cancelBtn = $('#bkt-cancel'),
+            createBtn = $('#bkt-create'),
+            nameInput = $('#js-bucket-name');
+        $("#js-add-bucket-btn").click(function(){
+            bucketForm.toggle();
+        });
+
+        cancelBtn.click(function(){
+            bucketForm.hide();
+            nameInput.val('')
+        });
+
+        createBtn.click(createBucket);
+        nameInput.on('keydown', function(e){
+            if(e.keyCode == 13){
+                createBucket();
+            }
+        })
+
+        // make adding Items to buckets possible
+        $('#js-add-bucket-item').click(function(){
+            
+        });
+        function createBucket(){
+            var val = nameInput.val().trim();
+            if (val === ""){
+                // add danger
+                // nameInput.addClass('btn-invalid')
+                return false;
+            }
+            
+            $.post("/buckets/create", {name:val}, function(data){
+                nameInput.val('')
+                data = JSON.parse(data);
+                console.log(data);
+                displayBucket(data);
+                showNotification("Added a new bucket.");
+                bucketForm.hide();
+            });
+            
+        }
+        var buckets = $('#js-buckets');
+
+        function displayBucket(data){
+            var templ = '<div class="bucket">';
+            templ += '<a href="/buckets/'+data.bucket_id+'" class="js-bucket-name">'
+            templ += data.name +'</a></div>';
+            templ = $(templ);
+            buckets.append(templ);
+        }
+
+        var notif = $('#popup')
+        function showNotification(message){
+            notif.text(message);
+            notif.addClass('visible');
+            var id = setTimeout(function(){
+                notif.removeClass('visible');
+            }, 3500);
+        }
 });
 })(jQuery);
-console.log('loaded...');

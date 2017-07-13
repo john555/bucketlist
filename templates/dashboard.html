@@ -46,14 +46,14 @@
                         <span class="img-wrapper">
                             <img src="/static/images/profile-pic.png" alt="">
                         </span>
-                        <span class="icon-label">John</span>
+                        <span class="icon-label">{{user.first_name}}</span>
                         <div class="dropdown hidden">
                             <div class="profile-header">
                                 <div class="profile-pic left">
                                     <img src="/static/images/profile-pic.png" alt="">
                                 </div>
                                 <div class="profile-name left">
-                                    <span>John Themistocles Doe</span>
+                                    <span>{{user.first_name}} {{user.last_name}}</span>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -72,30 +72,32 @@
     <div id="content">
         <div id="left-content">
             <div class="left-header">
-                <a href="javascript:void(0)" class="js-add-bucket-btn"><i class="glyphicon glyphicon-plus"></i> Add new bucket list</a>
+                <a href="javascript:void(0)" id="js-add-bucket-btn" class="js-add-bucket-btn"><i class="glyphicon glyphicon-plus"></i> Add new bucket list</a>
+                <div id="bucket-form">
+                    <div class="form-group">
+                        <input id="js-bucket-name" type="text" class="form-control" placeholder="Name of bucket">
+                    </div>
+                    <div class="form-group">
+                        <button id="bkt-create" class="btn btn-primary">Create</button>
+                        <button id="bkt-cancel" class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
             </div>
             <div id="bucket-wrapper">
                 <div class="buckets-list-header">
                     <span>My buckets</span>
                 </div>
-                <div class="buckets">
+                <div id="js-buckets" class="buckets">
+                    {% for bucket in user.buckets %}
                     <div class="bucket">
-                        <a href="javascript:void()" class="js-bucket-name">Git & GitHub</a>
+                        <a href="/buckets/{{bucket}}" class="js-bucket-name">{{ user.buckets[bucket].name }}</a>
                     </div>
-                    <div class="bucket">
-                        <a href="javascript:void()" class="js-bucket-name">Machine learning</a>
-                    </div>
-                    <div class="bucket">
-                        <a href="javascript:void()" class="js-bucket-name">Data science</a>
-                    </div>
-                    <div class="bucket">
-                        <a href="javascript:void()" class="js-bucket-name">Signal processing</a>
-                    </div>
-
+                    {% endfor %}
                 </div>
             </div>
         </div>
         <div id="middle-content">
+            
             <div id="bucket-header">
                 <div class="left">
                     <span class="heading">Bucket name</span>
@@ -112,7 +114,7 @@
                 <div class="clearfix"></div>
             </div>
             <div id="bucket">
-                <div class="bucket-item">
+                <!-- <div class="bucket-item">
                     <div class="item-options-menu">
                         <span class="ellipses">•••</span>
                         <div class="actions">
@@ -126,7 +128,6 @@
                         <span class="mon-year">July, 2017</span>
                         <span class="status-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
-                            <!--<span class="icon-text">Complete</span>-->
                         </span>
                     </div>
                     <div class="item-details">
@@ -157,7 +158,7 @@
                         <span class="mon-year">July, 2017</span>
                         <span class="status-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
-                            <!--<span class="icon-text">Complete</span>-->
+                            
                         </span>
                     </div>
                     <div class="item-details">
@@ -174,8 +175,9 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
-                </div>
-                <div class="bucket-item complete">
+                </div> -->
+                {% for key in bucket.item %}
+                <div class="bucket-item">
                     <div class="item-options-menu">
                         <span class="ellipses">•••</span>
                         <div class="actions">
@@ -189,22 +191,21 @@
                         <span class="mon-year">July, 2017</span>
                         <span class="status-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
-                            <!--<span class="icon-text">Complete</span>-->
                         </span>
                     </div>
                     <div class="item-details">
-                        <span class="item-title">Go hiking</span>
-                        <div class="item-notes">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga distinctio, voluptatum, minus accusamus quidem assumenda quod quibusdam necessitatibus sint, laudantium velit fugiat! Deserunt sequi, fuga rem illum perspiciatis, suscipit temporibus.
-                        </div>
+                        <span class="item-title">{{ bucket.item[key].title }}</span>
+                        <div class="item-notes">{{ bucket.item[key].description }}</div>
                         <div class="item-actions">
-                            <!--<button class="btn btn-default">Complete</button>
-                            <button class="btn btn-default">Incomplete</button>
-                            <button class="btn btn-default">Delete</button>-->
+                            <div class="right">
+                                <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-default">Cancel</button>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
-                
+                {% endfor %}
                 <!--/ duplicates -->
             </div>
         </div>
@@ -228,17 +229,26 @@
                         <input id="subject" type="text" class="form-control input-lg">
                     </div>
                     <div class="form-group">
-                        <label for="date">Target date (We will remind you to execute this goal on this date)</label>
+                        <label for="_bucket">Select a bucket</label>
+                        <select id="_bucket" required class="form-control input-lg" name="bucket_id">
+                            <option>Select</option>
+                            {% for key in user.buckets %}
+                            <option value="{{user.buckets[key].bucket_id}}">{{user.buckets[key].name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Target date</label>
                         <input id="date" type="date" class="form-control input-lg">
                     </div>
                     <div class="form-group">
-                        <label for="notes">Notes (optional)</label>
-                        <textarea id="notes" type="text" class="form-control input-lg"></textarea>
+                        <label for="description">Add a description (optional)</label>
+                        <textarea id="description" type="text" class="form-control input-lg"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save</button>
+                <button id="js-add-bucket-item" type="button" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>

@@ -604,3 +604,27 @@ label{
     padding: 10px;
 }
 
+#bucket-form{
+    display: none;
+    position: absolute;
+    background: #f6f7f8;
+    border: 1px solid #eee;
+    box-shadow: 0 0 1px rgba(0, 0,0,.1);
+    padding: 10px 15px;
+}
+#popup{
+    position: fixed;
+    left: 60px;
+    bottom: 60px;
+    z-index: 300;
+    color: white;
+    background: #454348;
+    padding: 6px 20px;
+    border-radius: 4px;
+    transform: translateY(100px);
+    transition: transform .2s ease-in-out;
+}
+
+#popup.visible{
+    transform: translateY(0);
+}

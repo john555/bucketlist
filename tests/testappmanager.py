@@ -1,5 +1,5 @@
 import unittest
-from bucketlist.applicationmanager import ApplicationManager
+from bucketlist.appmanager import ApplicationManager
 from bucketlist.models import User
 
 class Test(unittest.TestCase):
@@ -32,6 +32,7 @@ class Test(unittest.TestCase):
             self.app.update_user(self.user1.user_id, 0, 8)
             self.app.create_user("", "", "", "")
             self.app.create_user("", "", 9, "")
+
     def test_can_edit_user(self):
         user_id = self.user1.user_id
         updated_user = self.app.update_user(user_id, "Jane", "Muller")
