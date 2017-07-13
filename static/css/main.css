@@ -519,7 +519,8 @@ label {
   background: white;
   border: 1px solid #eee;
   box-shadow: 0 0 26px rgba(0, 0, 0, 0.1);
-  padding: 10px 15px; }
+  padding: 10px 15px;
+  z-index: 2; }
 
 #popup {
   position: fixed;

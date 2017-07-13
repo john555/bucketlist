@@ -181,7 +181,16 @@
             
         }
 
-        // make checking indicating completed items work
-        
+        // work on bucket list items
+
+        var editItemBtn = $('.js-edit-item');
+        var completeItemBtn = $('.js-complete-item');
+        var deleteItemBtn = $('.js-delete-item');
+
+        //// make marking items as complete or incomplete work
+        completeItemBtn.click(function(){
+            var self = $(this);
+            
+        });
 });
 })(jQuery);

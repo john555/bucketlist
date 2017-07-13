@@ -34,4 +34,28 @@ class Test(unittest.TestCase):
 
     def test_can_edit_bucket_item(self):
         item = self.java_bucket.create_item("OOP", "", "2017-08-12")
-        self.java_bucket.edit_item("OOP", "Classes", "2017-08-12")
+        self.java_bucket.edit_item(item.item_id, "Hiking", "Classes", "2017-08-12")
+        self.assertEqual("Hiking", item.title)
+        self.assertEqual("Classes", item.description)
+
+    def test_can_checkoff_finished_items(self):
+        item = self.java_bucket.create_item("OOP", "", "2017-08-12")
+        self.java_bucket.set_complete(item.item_id)
+        self.assertTrue(self.java_bucket.items[item.item_id].is_complete)
+
+    def test_can_indicate_finished_items(self):
+        item = self.java_bucket.create_item("OOP", "", "2017-08-12")
+        self.java_bucket.set_complete(item.item_id)
+        self.assertTrue(self.java_bucket.items[item.item_id].is_complete)
+
+    def test_can_indicate_unfinished_items(self):
+        item = self.java_bucket.create_item("OOP", "", "2017-08-12")
+        self.java_bucket.set_complete(item.item_id)
+        self.java_bucket.set_incomplete(item.item_id)
+        self.assertFalse(self.java_bucket.items[item.item_id].is_complete)
+    
+    def test_can_delete_item_from_bucket(self):
+        item = self.java_bucket.create_item("OOP", "", "2017-08-12")
+        self.java_bucket.delete_item(item.item_id)
+        self.assertFalse(item.item_id in self.java_bucket.items)
+    

@@ -111,9 +111,7 @@ def show_bucket_item(bucket_id):
     else:
         return redirect(url_for("login"))
 
-#
-# everything on buckets
-#
+
 @app.route('/buckets/<bucket_id>/add', methods = ['POST'])
 def add_item_to_bucket(bucket_id):
     if 'user_id' in session:
@@ -154,10 +152,19 @@ def delete_bucket(bucket_id):
         user = app_manager.users[user_id]
         user.delete_bucket(bucket_id)
         return json.dumps(dict(bucket_id = bucket_id))
+
+@app.route("/buckets/<bucket_id>/complete/<item_id>", methods=['GET', 'POST'])
+def toggle_complete_status(bucket_id, item_id):
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = app_manager.users[user_id]
+        if bucket_id in user.buckets:
+            bucket = user.buckets[bucket_id]
+        else:
+            return json.dumps(dict(error="Unknown bucket"))
 #
 # Error handlers
 #
-@app.errorhandler(404)
 @app.route('/pagenotfound')
 def page_not_found():
     return render_template("404.html"), 404
