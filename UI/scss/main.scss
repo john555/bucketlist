@@ -223,11 +223,12 @@ ul#tools li span img{
 #bucket .bucket-item{
     background: white;
     padding: 16px;
-    border-left: 3px solid #ce6187;;
+    border-left: 3px solid #ce6187;
     box-shadow: 1px 1px 20px rgba(0,0,0,.1);
 }
 
 #bucket .bucket-item.complete{
+
     border-left-color: #69d6b0
 }
 
@@ -237,6 +238,11 @@ ul#tools li span img{
 
 #bucket .bucket-item.complete .status-icon{
     display: none;
+    border-left-color: #48cc54;
+}
+
+#bucket .bucket-item.edit-mode{
+
 }
 
 #bucket .bucket-item.complete .item-details,
@@ -253,8 +259,12 @@ ul#tools li span img{
     display: block;
 }
 
+
 #bucket .bucket-item{
     margin-bottom: 20px;
+}
+#bucket .bucket-item + .bucket-item{
+    margin-top: 20px;
 }
 
 #floating-actions{
