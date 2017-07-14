@@ -153,13 +153,57 @@ def delete_bucket(bucket_id):
         user.delete_bucket(bucket_id)
         return json.dumps(dict(bucket_id = bucket_id))
 
-@app.route("/buckets/<bucket_id>/complete/<item_id>", methods=['GET', 'POST'])
-def toggle_complete_status(bucket_id, item_id):
+@app.route("/buckets/<bucket_id>/complete/<item_id>", methods=['POST'])
+def make_item_complete(bucket_id, item_id):
     if 'user_id' in session:
         user_id = session['user_id']
         user = app_manager.users[user_id]
         if bucket_id in user.buckets:
             bucket = user.buckets[bucket_id]
+            bucket.set_complete(item_id)
+            return json.dumps(dict(item_id=item_id))
+        else:
+            return json.dumps(dict(error="Unknown bucket"))
+
+@app.route("/buckets/<bucket_id>/incomplete/<item_id>", methods=['POST'])
+def make_item_incomplete(bucket_id, item_id):
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = app_manager.users[user_id]
+
+        if bucket_id in user.buckets:
+            bucket = user.buckets[bucket_id]
+            bucket.set_incomplete(item_id)
+            return json.dumps(dict(item_id=item_id))
+        else:
+            return json.dumps(dict(error="Unknown bucket"))
+
+@app.route("/buckets/<bucket_id>/delete/<item_id>", methods=['POST'])
+def delete_item(bucket_id, item_id):
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = app_manager.users[user_id]
+
+        if bucket_id in user.buckets:
+            bucket = user.buckets[bucket_id]
+            bucket.delete_item(item_id)
+            return json.dumps(dict(item_id=item_id))
+        else:
+            return json.dumps(dict(error="Unknown bucket"))
+
+@app.route("/buckets/<bucket_id>/edit/<item_id>", methods=['POST'])
+def edit_item(bucket_id, item_id):
+    if 'user_id' in session:
+        title = request.form['title']
+        description = request.form['description']
+        date = request.form['date']
+        user_id = session['user_id']
+        user = app_manager.users[user_id]
+
+        if bucket_id in user.buckets:
+            bucket = user.buckets[bucket_id]
+            bucket.edit_item(item_id, title, description, date)
+            return json.dumps(dict(item_id=item_id))
         else:
             return json.dumps(dict(error="Unknown bucket"))
 #

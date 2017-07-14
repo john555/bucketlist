@@ -66,7 +66,6 @@
             var data = {title:title, date:date, description:description};
             var url = form.attr('action');
             url = url.replace(':id', bucketId);
-            console.log(url, data);
             $.post(url, data, function(data){
                 addBucketCallback(data, '/buckets/'+bucketId);
             });
@@ -74,7 +73,6 @@
 
         function addBucketCallback(data, url){
             var data = JSON.parse(data);
-            console.log(data);
             $('body').removeClass('masked');
             window.location = url
         }
@@ -124,11 +122,11 @@
             var date = dateStr.split("-"),
             day = date[2],
             mon = parseInt(date[1]),
-            year = parseInt([0]);
+            year = parseInt(date[0]);
             self.text(day);
             var months = ['January','February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             var month = months[mon-1];
-            self.siblings('.mon-year').text(month);
+            self.siblings('.mon-year').text(month +', '+ year);
         });
 
         // make editing buckets work
@@ -161,7 +159,8 @@
 
         function onEditBucketComplete(data){
             var data = JSON.parse(data);
-            $('#bucket-'+data.bucket_id).text(data.name);
+            // $('#bucket-'+data.bucket_id).text(data.name);
+            window.location = window.location
         }
         
         // make deleting work
@@ -184,13 +183,96 @@
         // work on bucket list items
 
         var editItemBtn = $('.js-edit-item');
-        var completeItemBtn = $('.js-complete-item');
+        var updateItemStatusBtn = $('.js-toggle-item-status');
         var deleteItemBtn = $('.js-delete-item');
+        var saveItemBtn = $('.js-save-item');
+        var cancelSaveItemBtn = $('.js-cancel-edit-item')
 
         //// make marking items as complete or incomplete work
-        completeItemBtn.click(function(){
+        updateItemStatusBtn.click(function(){
             var self = $(this);
-            
+            var url = self.data('action-url');
+            $.post(url, null, function(data){
+                data = JSON.parse(data);
+                $('#item-'+data.item_id).toggleClass('complete');
+                // toggleEditItemBtn(self);
+                window.location = location
+            });
         });
+
+        function toggleEditItemBtn(btn){
+            var url = btn.data('action-url');
+            if(url.match("/complete")){
+                url = url.replace("/complete", "/incomplete");
+                btn.attr('data-action-url', url);
+                btn.text("Mark as incomplete");
+            } else{
+                url = url.replace("/incomplete", "/complete");
+                btn.attr('data-action-url', url);
+                btn.text("Mark as complete");
+            }
+        }
+
+        //// make deleting items work
+        deleteItemBtn.click(function(){
+            var self = $(this);
+            var url = self.data('action-url');
+            var url = self.data('action-url');
+            $.post(url, null, function(data){
+                data = JSON.parse(data);
+                // $('#item-'+data.item_id).remove();
+                window.location = location
+            });
+        });
+        
+
+        //// make editing items work
+        editItemBtn.click(function(){
+            var self = $(this);
+            var postUrl = self.data('action-url');
+            var parent = self.parents('.bucket-item');
+            initializeEditMode(parent);
+        });
+
+        saveItemBtn.click(function(){
+            var self = $(this);
+            var parent = self.parents('.bucket-item');
+            
+            editItem(parent);
+        });
+
+        cancelSaveItemBtn.click(function(){
+            var self = $(this);
+            var parent = self.parents('.bucket-item');
+            exitEditMode(parent);
+        });
+
+        function initializeEditMode(item){
+            item.addClass('edit-mode');
+        }
+
+        function exitEditMode(item){
+            item.removeClass('edit-mode');
+        }
+
+        function editItem(item){
+            var $title = item.find('.js-item-title');
+            var $desc = item.find('.js-item-description');
+            var $date = item.find('.js-item-date');
+            var url = item.find('.js-edit-item').data('action-url');
+            var data = {
+                title: $title.val(),
+                description: $desc.val(),
+                date: $date.val()
+            }
+            $.post(url, data, editComplete);
+        }
+
+        function editComplete(data){
+            data = JSON.parse(data);
+            window.location = window.location
+        }
+
+        
 });
 })(jQuery);

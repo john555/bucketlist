@@ -132,68 +132,6 @@
                 <div class="clearfix"></div>
             </div>
             <div id="bucket" class="reverse-vertically">
-                <!-- <div class="bucket-item">
-                    <div class="item-options-menu">
-                        <span class="ellipses">•••</span>
-                        <div class="actions">
-                            <a class="action">Edit</a>
-                            <a class="action">Mark as complete</a>
-                            <a class="action">Delete</a>
-                        </div>
-                    </div>
-                    <div class="item-date">
-                        <span class="day">19</span>
-                        <span class="mon-year">July, 2017</span>
-                        <span class="status-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
-                        </span>
-                    </div>
-                    <div class="item-details">
-                        <span class="item-title">Go hiking</span>
-                        <div class="item-notes">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga distinctio, voluptatum, minus accusamus quidem assumenda quod quibusdam necessitatibus sint, laudantium velit fugiat! Deserunt sequi, fuga rem illum perspiciatis, suscipit temporibus.
-                        </div>
-                        <div class="item-actions">
-                            <div class="right">
-                                <button class="btn btn-primary">Save</button>
-                                <button class="btn btn-default">Cancel</button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bucket-item edit-mode">
-                    <div class="item-options-menu">
-                        <span class="ellipses">•••</span>
-                        <div class="actions">
-                            <a class="action">Edit</a>
-                            <a class="action">Mark as complete</a>
-                            <a class="action">Delete</a>
-                        </div>
-                    </div>
-                    <div class="item-date">
-                        <span class="day">19</span>
-                        <span class="mon-year">July, 2017</span>
-                        <span class="status-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
-                            
-                        </span>
-                    </div>
-                    <div class="item-details">
-                        <span class="item-title"><input type="text" class="js-item-title" value="Go hiking"></span>
-                        <div class="item-notes">
-                            <textarea class="js-item-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga distinctio, voluptatum, minus accusamus quidem assumenda quod quibusdam necessitatibus sint, laudantium velit fugiat! Deserunt sequi, fuga rem illum perspiciatis, suscipit temporibus.
-                            </textarea>
-                        </div>
-                        <div class="item-actions">
-                            <div class="right">
-                                <button class="btn btn-primary">Save</button>
-                                <button class="btn btn-default">Cancel</button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div> -->
                 {% if bucket.items|length == 0 %}
                 <div id="no-items">
                     <p>No items to display.</p>
@@ -201,15 +139,19 @@
                 {% else %}
                     {% for key in bucket.items %}
                     {% if bucket.items[key].is_complete %}
-                    <div class="bucket-item complete">
+                    <div id="item-{{key}}" class="bucket-item complete">
                     {% else %}
-                    <div class="bucket-item">
+                    <div id="item-{{key}}" class="bucket-item">
                     {% endif %}
                          <div class="item-options-menu">
                             <span class="ellipses">•••</span>
                             <div class="actions">
                                 <a class="action js-edit-item" data-action-url="/buckets/{{bucket.bucket_id}}/edit/{{key}}">Edit</a>
-                                <a class="action js-complete-item" data-action-url="/buckets/{{bucket.bucket_id}}/complete/{{key}}">Mark as complete</a>
+                                {% if bucket.items[key].is_complete %}
+                                <a class="action js-toggle-item-status" data-action-url="/buckets/{{bucket.bucket_id}}/incomplete/{{key}}">Mark as incomplete</a>
+                                {% else %}
+                                <a class="action js-toggle-item-status" data-action-url="/buckets/{{bucket.bucket_id}}/complete/{{key}}">Mark as complete</a>
+                                {% endif %}
                                 <a class="action js-delete-item" data-action-url="/buckets/{{bucket.bucket_id}}/delete/{{key}}">Delete</a>
                             </div>
                         </div> 
@@ -221,12 +163,27 @@
                             </span>
                         </div>
                         <div class="item-details">
-                            <span class="item-title">{{ bucket.items[key].title }}</span>
-                            <div class="item-notes">{{ bucket.items[key].description }}</div>
+                            <span class="item-title">
+                                <span class="title-value">{{ bucket.items[key].title }}</span>
+                                <input type="text" class="js-item-title" placeholder="Title" value="{{ bucket.items[key].title }}">
+                            </span>
+                            <div class="item-notes">
+                                <span class="desc-value">{{ bucket.items[key].description }}</span>
+                                <textarea placeholder="Description" class="js-item-description">{{ bucket.items[key].description }}</textarea>
+                            </div>
+                            <div class="js-item-date-wrapper">
+                                <label for="new-date">Target date</label>
+                                <input id="new-date" type="date" class="js-item-date" value="{{ bucket.items[key].target_date }}">
+                            </div>
+                            <div class="timestamp">
+                                <span>
+                                    Created on <span class="js-timestamp">{{ bucket.items[key].timestamp }}</span>
+                                </span>
+                            </div>
                             <div class="item-actions">
                                 <div class="right">
-                                    <button class="btn btn-primary">Save</button>
-                                    <button class="btn btn-default">Cancel</button>
+                                    <button class="btn btn-primary js-save-item">Save</button>
+                                    <button class="btn btn-default js-cancel-edit-item">Cancel</button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -261,7 +218,11 @@
                         <select id="goal-bucket" required class="form-control input-lg" name="bucket_id">
                             <option>Select</option>
                             {% for key in user.buckets %}
-                            <option value="{{user.buckets[key].bucket_id}}">{{user.buckets[key].name}}</option>
+                                {% if bucket.bucket_id == user.buckets[key].bucket_id %}
+                                    <option value="{{user.buckets[key].bucket_id}}" selected>{{user.buckets[key].name}}</option>
+                                {% else %}
+                                    <option value="{{user.buckets[key].bucket_id}}">{{user.buckets[key].name}}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
