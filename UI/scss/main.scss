@@ -4,6 +4,11 @@
     outline: none;
 }
 
+.reverse-vertically{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 html{
     background-color: #000;
 }
@@ -218,16 +223,26 @@ ul#tools li span img{
 #bucket .bucket-item{
     background: white;
     padding: 16px;
-    border-left: 3px solid #8c8c8c;
+    border-left: 3px solid #ce6187;
     box-shadow: 1px 1px 20px rgba(0,0,0,.1);
 }
 
 #bucket .bucket-item.complete{
+
+    border-left-color: #69d6b0
+}
+
+#bucket .bucket-item.complete .day{
+    background-color: #69d6b0;
+}
+
+#bucket .bucket-item.complete .status-icon{
+    display: none;
     border-left-color: #48cc54;
 }
 
 #bucket .bucket-item.edit-mode{
-    
+
 }
 
 #bucket .bucket-item.complete .item-details,
@@ -244,6 +259,10 @@ ul#tools li span img{
     display: block;
 }
 
+
+#bucket .bucket-item{
+    margin-bottom: 20px;
+}
 #bucket .bucket-item + .bucket-item{
     margin-top: 20px;
 }
@@ -475,13 +494,18 @@ ul#account-menu-options li + li{
     margin-top: 5px;
     font-size: 12px;
     color: #777;
+    text-align: center;
 }
 
 .status-icon{
     margin-top: 20px;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
+}
+
+.complete .status-icon{
+    display: flex;
 }
 
 .status-icon svg{
@@ -497,7 +521,7 @@ ul#account-menu-options li + li{
 
 .item-details{
     margin-left: 20px;
-    color: #777;
+    color: #777; 
     width: calc(100% - 20px);
 }
 
@@ -511,7 +535,7 @@ ul#account-menu-options li + li{
     width: 50px;
     height: 50px;
     line-height: 50px;
-    background: pink;
+    background: #cc4474;
     color: white;
     border-radius: 50%;
     text-align: center;
@@ -532,14 +556,19 @@ ul#account-menu-options li + li{
     display: block;
 }
 
-.js-item-title, .js-item-description{
+.js-item-title, .js-item-description, .js-item-date-wrapper input{
     width: 92%;
     border: 1px solid #e4e4e4;
     border-radius: 2px;
 }
 
+.js-item-date-wrapper input{
+    padding: 3px 10px;
+}
+
 .js-item-title{
-    padding: 0 10px;
+    padding: 3px 10px;
+    display: none;
 }
 
 .js-item-description{
@@ -549,6 +578,35 @@ ul#account-menu-options li + li{
     margin-top: 10px;
     overflow-x: hidden;
     overflow-y: auto;
+    display: none;
+}
+
+.js-item-date-wrapper{
+    display: none;
+    margin-top: 20px;
+}
+
+.js-item-date-wrapper label{
+    display: block;
+    margin-bottom: 8px;
+}
+
+.edit-mode .js-item-title, 
+.edit-mode .js-item-description,
+.edit-mode .js-item-date-wrapper{
+    display: block;
+}
+.timestamp{
+    margin: 5px 0;
+    font-size: 11px;
+}
+.edit-mode .title-value,
+.edit-mode .desc-value{
+    display: none;
+}
+
+.item-notes p{
+    line-height: 20px;
 }
 
 .left-header{
@@ -583,6 +641,11 @@ ul#account-menu-options li + li{
     margin-top: 4px;
 }
 
+.buckets .active a{
+    border-left-color:#888;
+    background: #eee
+}
+
 .js-bucket-name{
     display: block;
     padding: 9px;
@@ -599,4 +662,65 @@ ul#account-menu-options li + li{
 }
 label{
     font-weight: normal;
+}
+.alert-danger {
+    padding: 10px;
+}
+
+#bucket-form{
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #eee;
+    box-shadow: 0 0 26px rgba(0, 0,0,.1);
+    padding: 10px 15px;
+    z-index: 2
+}
+#popup{
+    position: fixed;
+    left: 60px;
+    bottom: 60px;
+    z-index: 300;
+    color: white;
+    background: #454348;
+    padding: 6px 20px;
+    border-radius: 4px;
+    transform: translateY(100px);
+    transition: transform .2s ease-in-out;
+}
+
+#popup.visible{
+    transform: translateY(0);
+}
+
+#no-items{
+    font-size: 28px;
+    background: white;
+    padding: 20px;
+}
+
+#no-items p{
+    opacity: .4;
+}
+
+.editable-container{
+    position: relative;
+}
+
+.editable-container.edit-mode .edit-target{
+    display: none;
+}
+.editable-container .inline-editor{
+    display: none;
+}
+.editable-container.edit-mode .inline-editor{
+    display: block;
+}
+.editable-container input{
+    padding: 8px 12px;
+    width: 390px;
+    border-radius: 3px;
+    border: 1px solid #eee;
+    margin-right: 20px;
+    font-size: 24px;
 }

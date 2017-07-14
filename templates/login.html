@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Keep track of your goals - Goal Bucket</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <div id="anonymouscontent" class="flex-center">
+        <header id="header-anonymous">
+            <a href="/" class="logo">
+                <img src="/static/images/logo.svg" alt="Logo">
+            </a>
+        </header>
+        <div id="entry-form-content">
+            <span class="form-heading">Sign in to your account.</span>
+            <form action="/login" id="entry-form" method="post">
+                {% if error %}
+                    <div class="form-group">
+                        <span class="alert-danger">Invalid credentials.</span>
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <input class="form-control input-lg" name="email" type="text" placeholder="Emall" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control input-lg" name="password" type="password" placeholder="Password" required>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary input-lg">Sign in</button>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+
+            <div class="copy">
+                <p>
+                    <a href="/register">Create an account</a> if you have none.
+                </p>
+            </div>
+        </div>
+        
+    </div>
+    <!-- <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script> -->
+</body>
+</html>
