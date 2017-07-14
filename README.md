@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/john555/bucketlist.svg)](https://travis-ci.org/john555/bucketlist)
-[![Coverage Status](https://coveralls.io/repos/github/john555/bucketlist/badge.svg)](https://coveralls.io/github/john555/bucketlist)
+[![Build Status](https://travis-ci.org/john555/bucketlist.svg?branch=challenge-2)](https://travis-ci.org/john555/bucketlist)
+
 # Bucketlist
 
 Keep track of your goals or dreams. Don't forget to change the world.
