@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Keep track of your goals - Goal Bucket</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body class="">
+    <form action="/logout" method="post" id="logout-form"></form>
+    <header id="header-main">
+        <div class="container">
+            <a href="" class="logo left"><img src="/static/images/logo-white.svg" alt=""></a>
+            <div class="right">
+                <ul id="tools">
+                    <!--<li>
+                        <span>
+                            <i class="glyphicon glyphicon-bell"></i>
+                        </span>
+
+                        <div id="notif" class="dropdown hidden">
+                            <div id="notif-heading">
+                                <span>Notifications</span>
+                            </div>
+                            <div id="notifications">
+                                <div class="notification">
+                                    <span class="close">×</span>
+                                    <div class="ntf-title">Upcomming dadeline</div>
+                                    <div class="ntf-details">Tuesday at 12:00PM</div>
+                                </div>
+                                <div class="notification">
+                                    <span class="close">×</span>
+                                    <div class="ntf-title">You need to go hiking with James, Peter and 3 others</div>
+                                    <div class="ntf-details">Tuesday at 12:00PM</div>
+                                </div>
+                                <!--<div class="notification js-notif-none">
+                                    <div class="ntf-title">You have no notifications.</div>
+                                </div>--><!--
+                            </div>
+                        </div>
+                    </li>-->
+                    <!--<li><span><i class="glyphicon glyphicon-user"></i></span></li>-->
+                    <li>
+                        <span class="img-wrapper">
+                            <img src="/static/images/profile-pic.png" alt="">
+                        </span>
+                        <span class="icon-label">{{user.first_name}}</span>
+                        <div class="dropdown hidden">
+                            <div class="profile-header">
+                                <div class="profile-pic left">
+                                    <img src="/static/images/profile-pic.png" alt="">
+                                </div>
+                                <div class="profile-name left">
+                                    <span>{{user.first_name}} {{user.last_name}}</span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <ul id="account-menu-options">
+                                <!-- <li><a href="">Account settings</a></li> -->
+                                <li><a href="javascript:document.getElementById('logout-form').submit();">Sign out</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </header>
+    <div id="content">
+        <div id="left-content">
+            <div class="left-header">
+                <a href="javascript:void(0)" id="js-add-bucket-btn" class="js-add-bucket-btn"><i class="glyphicon glyphicon-plus"></i> Add new bucket list</a>
+                <div id="bucket-form">
+                    <div class="form-group">
+                        <input id="js-bucket-name" type="text" class="form-control" placeholder="Name of bucket">
+                    </div>
+                    <div>
+                        <div class="form-group right">
+                            <button id="bkt-create" class="btn btn-primary">Create</button>
+                            <button id="bkt-cancel" class="btn btn-default">Cancel</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="bucket-wrapper">
+                <div class="buckets-list-header">
+                    <span>My buckets</span>
+                </div>
+                <div id="js-buckets" class="buckets reverse-vertically">
+                    {% for _bucket in user.buckets %}
+                    {% if _bucket == bucket.bucket_id %}
+                    <div class="bucket active">
+                    {% else %}
+                    <div class="bucket">
+                    {% endif %}
+                        <a id="bucket-{{_bucket}}" href="/buckets/{{_bucket}}" class="js-bucket-name">{{ user.buckets[_bucket].name }}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div id="middle-content">
+            
+            <div id="bucket-header">
+                <div id="editable-bucket" class="left editable-container"><!--class [edit-mode]-->
+                    {% if bucket.name|length == 0 %}
+                        <span style="opacity:.5" id="js-edit-bucket-target" class="heading edit-target">No bucket to display.</span>
+                    {% else %}
+                        <span id="js-edit-bucket-target" class="heading edit-target">{{ bucket.name }}</span>
+                        <div class="inline-editor">
+                            <input type="text" id="bucket-name">
+                            <button id="save-edit" class="btn btn-primary">Save</button>
+                            <button id="cancel-edit" class="btn btn-default">Cancel</button>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="right">
+                    {% if not bucket.name|length == 0 %}
+                     <div class="item-options-menu">
+                        <span class="ellipses">•••</span>
+                        <div class="actions">
+                            <a id="js-edit-bucket" class="action" data-action-url="/buckets/{{bucket.bucket_id}}/edit">Edit</a>
+                            <a id="js-delete-bucket" class="action" data-action-url="/buckets/{{bucket.bucket_id}}/delete">Delete</a>
+                        </div>
+                    </div> 
+                    {% endif %}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="bucket" class="reverse-vertically">
+                {% if bucket.items|length == 0 %}
+                <div id="no-items">
+                    <p>No items to display.</p>
+                </div>
+                {% else %}
+                    {% for key in bucket.items %}
+                    {% if bucket.items[key].is_complete %}
+                    <div id="item-{{key}}" class="bucket-item complete">
+                    {% else %}
+                    <div id="item-{{key}}" class="bucket-item">
+                    {% endif %}
+                         <div class="item-options-menu">
+                            <span class="ellipses">•••</span>
+                            <div class="actions">
+                                <a class="action js-edit-item" data-action-url="/buckets/{{bucket.bucket_id}}/edit/{{key}}">Edit</a>
+                                {% if bucket.items[key].is_complete %}
+                                <a class="action js-toggle-item-status" data-action-url="/buckets/{{bucket.bucket_id}}/incomplete/{{key}}">Mark as incomplete</a>
+                                {% else %}
+                                <a class="action js-toggle-item-status" data-action-url="/buckets/{{bucket.bucket_id}}/complete/{{key}}">Mark as complete</a>
+                                {% endif %}
+                                <a class="action js-delete-item" data-action-url="/buckets/{{bucket.bucket_id}}/delete/{{key}}">Delete</a>
+                            </div>
+                        </div> 
+                        <div class="item-date">
+                            <span class="day"> {{bucket.items[key].target_date}}</span>
+                            <span class="mon-year"></span>
+                            <span class="status-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>
+                            </span>
+                        </div>
+                        <div class="item-details">
+                            <span class="item-title">
+                                <span class="title-value">{{ bucket.items[key].title }}</span>
+                                <input type="text" class="js-item-title" placeholder="Title" value="{{ bucket.items[key].title }}">
+                            </span>
+                            <div class="item-notes">
+                                <span class="desc-value">{{ bucket.items[key].description }}</span>
+                                <textarea placeholder="Description" class="js-item-description">{{ bucket.items[key].description }}</textarea>
+                            </div>
+                            <div class="js-item-date-wrapper">
+                                <label for="new-date">Target date</label>
+                                <input id="new-date" type="date" class="js-item-date" value="{{ bucket.items[key].target_date }}">
+                            </div>
+                            <div class="timestamp">
+                                <span>
+                                    Created on <span class="js-timestamp">{{ bucket.items[key].timestamp }}</span>
+                                </span>
+                            </div>
+                            <div class="item-actions">
+                                <div class="right">
+                                    <button class="btn btn-primary js-save-item">Save</button>
+                                    <button class="btn btn-default js-cancel-edit-item">Cancel</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                <!--/ duplicates -->
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div id="floating-actions">
+        <span id="compose" class="fab">
+            <i class="glyphicon glyphicon-plus"></i>
+        </span>
+    </div>
+    <div id="overlay">
+        <div id="overlay-content">
+            <div class="modal-header">
+                <button id="close-overlay" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add a new goal</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/buckets/:id/add" id="goal-form" method="POST">
+                    <div class="form-group">
+                        <label for="goal-title">Goal</label>
+                        <input id="goal-title" type="text" class="form-control input-lg" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="goal-bucket">Select a bucket</label>
+                        <select id="goal-bucket" required class="form-control input-lg" name="bucket_id">
+                            <option>Select</option>
+                            {% for key in user.buckets %}
+                                {% if bucket.bucket_id == user.buckets[key].bucket_id %}
+                                    <option value="{{user.buckets[key].bucket_id}}" selected>{{user.buckets[key].name}}</option>
+                                {% else %}
+                                    <option value="{{user.buckets[key].bucket_id}}">{{user.buckets[key].name}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="target-date">Target date</label>
+                        <input id="target-date" type="date" class="form-control input-lg" name="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Add a description (optional)</label>
+                        <textarea id="description" type="text" class="form-control input-lg" name="description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="js-add-bucket-item" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+    <div id="popup"></div>
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
